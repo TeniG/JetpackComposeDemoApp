@@ -7,11 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -24,24 +21,64 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.composedemoapp.ui.theme.ComposeDemoAppTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val painter = painterResource(id = R.drawable.waterfall)
-            val contentDescription = "Waterfall between the mountains "
-            val title = "Waterfall between the mountains "
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(16.dp)
+            //Textfields, Buttons & Showing Snackbars
+            val scaffoldState = rememberScaffoldState()
+            var textFieldState by remember {
+                mutableStateOf("")
+            }
+            val coroutineScope = rememberCoroutineScope()
+
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                scaffoldState = scaffoldState
             ) {
-                ImageCard(
-                    painter = painter,
-                    contentDescription = contentDescription,
-                    title = title
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    TextField(
+                        value = textFieldState,
+                        label = {
+                            Text("Enter your Name")
+                        },
+                        onValueChange = {
+                            textFieldState = it
+                        },
+                    )
+                    Button(onClick = {
+                        coroutineScope.launch {
+                            scaffoldState.snackbarHostState.showSnackbar("Hello $textFieldState")
+                        }
+                    }) {
+                        Text("Please Greet me !")
+                    }
+
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .padding(16.dp)
+                ) {
+                    val painter = painterResource(id = R.drawable.waterfall)
+                    val contentDescription = "Waterfall between the mountains "
+                    val title = "Waterfall between the mountains "
+
+                    ImageCard(
+                        painter = painter,
+                        contentDescription = contentDescription,
+                        title = title
+                    )
+                }
+
             }
         }
     }
