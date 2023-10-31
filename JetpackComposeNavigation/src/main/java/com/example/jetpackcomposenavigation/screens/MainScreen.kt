@@ -11,6 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.jetpackcomposenavigation.utils.ScreenRoute
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -39,7 +40,7 @@ fun MainScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-                navController.navigate("detail_screen/$text")
+                navController.navigate("${ScreenRoute.DetailScreen.name}/$text")
             },
         ) {
             Text(" Go to DetailScreen")
