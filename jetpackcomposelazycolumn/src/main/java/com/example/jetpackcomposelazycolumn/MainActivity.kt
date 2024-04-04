@@ -12,10 +12,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposelazycolumn.domain.models.TvShow
+import com.example.jetpackcomposelazycolumn.presentation.TvShowDetail
 import com.example.jetpackcomposelazycolumn.presentation.TvShowInfoActivity
 import com.example.jetpackcomposelazycolumn.presentation.TvShowListScreen
+import com.example.jetpackcomposelazycolumn.presentation.utils.Screen
 import com.example.jetpackcomposelazycolumn.ui.theme.ComposeDemoAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,11 +34,22 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.secondaryContainer
                 ) {
                     //Navigate to tvShowInfoActivity
-                    TvShowListScreen(){
-                        Toast.makeText(this, it.name,Toast.LENGTH_LONG).show()
-                        navigateToTvShowInfoActivity(this,it)
-                    }
+//                    TvShowListScreen(){
+//                        Toast.makeText(this, it.name,Toast.LENGTH_LONG).show()
+//                        navigateToTvShowInfoActivity(this,it)
+//                    }
 
+                    //Navigation using NavController
+                    val navController = rememberNavController()
+                    NavHost(navController, startDestination = Screen.TvShowListScreen.route) {
+                        composable(route = Screen.TvShowListScreen.route) {
+                            TvShowListScreen(navController = navController)
+                        }
+                        composable(route = Screen.TvShowDetailScreen.route
+                        ) {
+                            TvShowDetail( navController = navController )
+                        }
+                    }
                 }
             }
         }
