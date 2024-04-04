@@ -1,6 +1,9 @@
 package com.example.jetpackcomposelazycolumn
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.jetpackcomposelazycolumn.domain.models.TvShow
+import com.example.jetpackcomposelazycolumn.presentation.TvShowInfoActivity
+import com.example.jetpackcomposelazycolumn.presentation.TvShowListScreen
 import com.example.jetpackcomposelazycolumn.ui.theme.ComposeDemoAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,27 +26,24 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.secondaryContainer
                 ) {
-                    Greeting("Android")
+                    //Navigate to tvShowInfoActivity
+                    TvShowListScreen(){
+                        Toast.makeText(this, it.name,Toast.LENGTH_LONG).show()
+                        navigateToTvShowInfoActivity(this,it)
+                    }
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ComposeDemoAppTheme {
-        Greeting("Android")
-    }
+
+fun navigateToTvShowInfoActivity(context: Context, tvShow: TvShow) {
+    val intent = Intent(context, TvShowInfoActivity::class.java)
+    intent.putExtra("tvShow", tvShow)
+    context.startActivity(intent)
 }
