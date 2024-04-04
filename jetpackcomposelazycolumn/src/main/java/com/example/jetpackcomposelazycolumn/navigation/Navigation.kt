@@ -19,9 +19,28 @@ fun Navigation() {
         composable(route = Screen.TvShowListScreen.route) {
             TvShowListScreen(navController = navController)
         }
+        //navigation by Passing the object using NavBackStackEntry
         composable(route = Screen.TvShowDetailScreen.route
         ) {
              TvShowDetail( navController = navController )
+        }
+
+        //navigation by Converting the TvShow object into JSON string
+        composable(
+            route = Screen.TvShowDetailScreen.route + "?tvShow={tvShow}",
+            arguments = listOf(
+                navArgument(
+                    name = "tvShow"
+                ) {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+            )
+        ) {
+
+            val tvShowJsonString =  it.arguments?.getString("tvShow")
+            val tvShow = Gson().fromJson(tvShowJsonString, TvShow::class.java)
+            TvShowDetail(navController = navController,tvShow = tvShow)
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.jetpackcomposelazycolumn.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,6 +11,7 @@ import androidx.navigation.NavController
 import com.example.jetpackcomposelazycolumn.data.TvShowList
 import com.example.jetpackcomposelazycolumn.domain.models.TvShow
 import com.example.jetpackcomposelazycolumn.presentation.utils.Screen
+import com.google.gson.Gson
 
 //@Composable
 //    fun TvShowListScreen(selectedItem: (TvShow) -> Unit) {
@@ -38,8 +40,16 @@ fun TvShowListScreen(navController: NavController) {
         ) {
             TvShowListItem(tvShow = it, { selectedShow->
 
-                navController.currentBackStackEntry?.savedStateHandle?.set("tvShow", selectedShow)
-                navController.navigate(Screen.TvShowDetailScreen.route)
+                //navigation by Passing the object using NavBackStackEntry
+//                navController.currentBackStackEntry?.savedStateHandle?.set("tvShow", selectedShow)
+//                navController.navigate(Screen.TvShowDetailScreen.route)
+
+
+                //navigation by Converting the TvShow object into JSON string
+                val tvShowJsonString = Gson().toJson(selectedShow)
+                navController.navigate(
+                    Screen.TvShowDetailScreen.route + "?tvShow=${tvShowJsonString}"
+                )
             })
         }
     }
