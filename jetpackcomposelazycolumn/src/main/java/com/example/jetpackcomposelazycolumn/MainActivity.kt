@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposelazycolumn.domain.models.TvShow
+import com.example.jetpackcomposelazycolumn.navigation.Navigation
 import com.example.jetpackcomposelazycolumn.presentation.TvShowDetail
 import com.example.jetpackcomposelazycolumn.presentation.TvShowInfoActivity
 import com.example.jetpackcomposelazycolumn.presentation.TvShowListScreen
@@ -40,16 +41,7 @@ class MainActivity : ComponentActivity() {
 //                    }
 
                     //Navigation using NavController
-                    val navController = rememberNavController()
-                    NavHost(navController, startDestination = Screen.TvShowListScreen.route) {
-                        composable(route = Screen.TvShowListScreen.route) {
-                            TvShowListScreen(navController = navController)
-                        }
-                        composable(route = Screen.TvShowDetailScreen.route
-                        ) {
-                            TvShowDetail( navController = navController )
-                        }
-                    }
+                    Navigation()
                 }
             }
         }
